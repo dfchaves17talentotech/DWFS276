@@ -15,11 +15,10 @@ app.get('/', async (req, res) =>{
         res.status(500);
         console.error(error);
     }
-    res.send('Hola soy mi primera ruta de express');
 });
 
-app.get('/mongo', (req, res)=>{
-    const response = dbconnection('sample_mflix','movies');
+app.get('/mongo', async (req, res)=>{
+    const response = await dbconnection('sample_mflix','movies');
     res.send(response);
 });
 
