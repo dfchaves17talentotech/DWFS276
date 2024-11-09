@@ -23,7 +23,7 @@ app.get('/empleados/:id', async(req, res) => {
 
 app.post('/createEmpleado', async(req, res) => {
     try {
-        console.log(req.body);
+        console.log(req);
         const empleados = await createEmpleado(req, res);
         res.send(empleados);
     } catch (error) {
@@ -31,22 +31,9 @@ app.post('/createEmpleado', async(req, res) => {
     }
 });
 
-
-
-app.get('/', async (req, res) =>{
-    try {
-        const query: QueryResult = await pool.query("SELECT * FROM empleados;");
-        res.status(200);
-        res.send(query.rows);
-    } catch (error) {
-        res.status(500);
-        console.error(error);
-    }
-});
-
-app.get('/mongo', async (req, res)=>{
-    const response = await dbconnection('sample_mflix','movies');
-    res.send(response);
+app.post('/', (req, res)=>{
+    console.log(req.body);
+    res.send(req.body);
 });
 
 app.listen(port, ()=>{
