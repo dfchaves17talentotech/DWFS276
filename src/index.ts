@@ -1,40 +1,16 @@
 import express from "express";
-import pool from "./database/db_connect_pg";
-import { QueryResult } from "pg";
-import { dbconnection } from "./database/db_connect_mongo";
-import { createEmpleado, getEmpleadoById, getEmpleados } from "./controllers/empleados_controller";
+import { empleadosRutas } from "./routes/empleados_routes";
 
 const app = express();
 const port = 3000;
 
-app.get('/empleados', async(req, res) => {
-    const empleados = await getEmpleados(req, res);
-    res.send(empleados);
-});
+// Middleware para procesar JSON
+app.use(express.json());
 
-app.get('/empleados/:id', async(req, res) => {
-    try {
-        const empleados = await getEmpleadoById(req, res);
-        res.send(empleados);
-    } catch (error) {
-        res.send(error);
-    }
-});
+// Middleware para procesar datos `application/x-www-form-urlencoded`
+app.use(express.urlencoded({ extended: true }));
 
-app.post('/createEmpleado', async(req, res) => {
-    try {
-        console.log(req);
-        const empleados = await createEmpleado(req, res);
-        res.send(empleados);
-    } catch (error) {
-        res.send(error);
-    }
-});
-
-app.post('/', (req, res)=>{
-    console.log(req.body);
-    res.send(req.body);
-});
+app.use(empleadosRutas);
 
 app.listen(port, ()=>{
     return console.log(`Estoy corriendo en el puerto ${port}`);
