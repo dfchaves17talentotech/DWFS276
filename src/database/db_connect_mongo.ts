@@ -2,13 +2,11 @@ import 'dotenv/config';
 import { MongoClient } from 'mongodb';
 
 // Connection URL
-const url:string = `mongodb+srv://dfchaves17:${process.env.LOCAL_MONGODB_PASSWORD}@talentotech.7cozw.mongodb.net/?retryWrites=true&w=majority&appName=TalentoTech`;
+const url:string = `${process.env.LOCAL_MONGODB_URL}`;
 const client = new MongoClient(url);
 
-export const dbconnection = async (dbName: string, collectionToFind: string) => {
+export const dbConnection = async (collectionName: string) => {
     await client.connect();
-    const db = client.db(dbName);
-    const collection = db.collection(collectionToFind);
-    const filteredDocs = await collection.find({ title: "A Corner in Wheat" }).toArray();    
-    return filteredDocs;
+    const db = client.db(process.env.LOCAL_MONGO_BD);
+    return db.collection(collectionName);
 };
